@@ -25,16 +25,16 @@ public class PingTools {
     public static PingResult doPing(InetAddress ia, int timeOutMillis){
 
         // Try native ping first
-//        try{
-//            return PingTools.doJavaPing(ia, timeOutMillis);
-//        } catch (InterruptedException e){
-//            PingResult pingResult = new PingResult(ia);
-//            pingResult.isReachable = false;
-//            pingResult.error="Interrupted";
-//            return pingResult;
-//        }
-//        catch (Exception ignored){
-//        }
+        try{
+            return PingTools.doNativePing(ia, timeOutMillis);
+        } catch (InterruptedException e){
+            PingResult pingResult = new PingResult(ia);
+            pingResult.isReachable = false;
+            pingResult.error="Interrupted";
+            return pingResult;
+        }
+        catch (Exception ignored){
+        }
 
         Log.v("AndroidNetworkTools", "Native ping failed, using java");
 
