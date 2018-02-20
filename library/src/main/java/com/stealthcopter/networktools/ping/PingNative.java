@@ -98,7 +98,7 @@ public class PingNative {
      */
     public static PingResult getPingStats(PingResult pingResult, String s) {
         Log.v("AndroidNetworkTools", "Ping String: " + s);
-        System.out.print("AndroidNetworkTools Ping String: " + s + "\n");
+        System.out.print("AndroidNetworkTools Ping String: " + s +"\n");
         String pingError;
         if (s.contains("0% packet loss")) {
             int start = s.indexOf("min/avg/max/");
@@ -108,7 +108,7 @@ public class PingNative {
                 // TODO: We failed at parsing, maybe we should fix ;)
                 pingError = "Error: " + s;
             } else {
-                s = s.substring(start + 20, end);
+                s = s.substring(start + 20, end).trim();
                 String stats[] = s.split("/");
                 pingResult.isReachable = true;
                 pingResult.result = s;
