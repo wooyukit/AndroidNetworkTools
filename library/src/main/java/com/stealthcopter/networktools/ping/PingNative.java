@@ -45,27 +45,13 @@ public class PingNative {
 
         Process proc = runtime.exec(pingCommand + " -c 1 -W " + timeoutSeconds + " " + address);
         proc.waitFor();
-        int exit = proc.exitValue();
-        String pingError;
-        if (exit == 0) {
-            InputStreamReader reader = new InputStreamReader(proc.getInputStream());
-            BufferedReader buffer = new BufferedReader(reader);
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                echo.append(line).append("\n");
-            }
-            return getPingStats(pingResult, echo.toString());
-        } else {
-            InputStreamReader reader = new InputStreamReader(proc.getErrorStream());
-            BufferedReader buffer = new BufferedReader(reader);
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                echo.append(line).append("\n");
-            }
-            pingError = "error = " + echo + ", exit = " + exit;
+        InputStreamReader reader = new InputStreamReader(proc.getInputStream());
+        BufferedReader buffer = new BufferedReader(reader);
+        String line;
+        while ((line = buffer.readLine()) != null) {
+            echo.append(line).append("\n");
         }
-        pingResult.error = pingError;
-        return pingResult;
+        return getPingStats(pingResult, echo.toString());
     }
 
     /**
