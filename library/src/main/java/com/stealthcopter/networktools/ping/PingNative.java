@@ -55,10 +55,8 @@ public class PingNative {
                 echo.append(line).append("\n");
             }
             return getPingStats(pingResult, echo.toString());
-        } else if (exit == 1) {
-            pingError = "failed, exit = 1";
         } else {
-            pingError = "error, exit = " + exit;
+            pingError = "error = " + proc.getErrorStream().toString() + ", exit = " + exit;
         }
         pingResult.error = pingError;
         return pingResult;
