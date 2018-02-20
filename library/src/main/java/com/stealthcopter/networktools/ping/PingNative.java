@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.util.regex.Pattern;
 
 /**
  * Created by mat on 09/12/15.
@@ -47,7 +46,7 @@ public class PingNative {
         proc.waitFor();
         int exit = proc.exitValue();
         String pingError;
-        System.out.print("Exit Code: " + exit);
+        System.out.print("Exit Code: " + exit + "\n");
         Log.w("AndroidNetworkTools", "Exit Code: " + exit);
         if (exit == 0) {
             InputStreamReader reader = new InputStreamReader(proc.getInputStream());
@@ -58,13 +57,7 @@ public class PingNative {
             }
             return getPingStats(pingResult, echo.toString());
         } else {
-            InputStreamReader reader = new InputStreamReader(proc.getErrorStream());
-            BufferedReader buffer = new BufferedReader(reader);
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                echo.append(line).append("\n");
-            }
-            pingError = "error = " + echo + ", exit = " + exit;
+            pingError = "exit code = " + exit;
         }
         pingResult.error = pingError;
         return pingResult;
@@ -105,6 +98,7 @@ public class PingNative {
      */
     public static PingResult getPingStats(PingResult pingResult, String s) {
         Log.v("AndroidNetworkTools", "Ping String: " + s);
+        System.out.print("AndroidNetworkTools Ping String: " + s + "\n");
         String pingError;
         if (s.contains("0% packet loss")) {
             int start = s.indexOf("min/avg/max/");
