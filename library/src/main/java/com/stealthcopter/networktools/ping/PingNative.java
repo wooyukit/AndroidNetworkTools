@@ -107,14 +107,14 @@ public class PingNative {
         Log.v("AndroidNetworkTools", "Ping String: " + s);
         String pingError;
         if (s.contains("0% packet loss")) {
-            int start = s.indexOf("/mdev = ");
+            int start = s.indexOf("min/avg/max/");
             int end = s.indexOf(" ms\n", start);
             pingResult.fullString = s;
             if (start == -1 || end == -1) {
                 // TODO: We failed at parsing, maybe we should fix ;)
                 pingError = "Error: " + s;
             } else {
-                s = s.substring(start + 8, end);
+                s = s.substring(start + 20, end);
                 String stats[] = s.split("/");
                 pingResult.isReachable = true;
                 pingResult.result = s;
