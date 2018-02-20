@@ -56,7 +56,13 @@ public class PingNative {
             }
             return getPingStats(pingResult, echo.toString());
         } else {
-            pingError = "error = " + proc.getErrorStream().toString() + ", exit = " + exit;
+            InputStreamReader reader = new InputStreamReader(proc.getErrorStream());
+            BufferedReader buffer = new BufferedReader(reader);
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                echo.append(line).append("\n");
+            }
+            pingError = "error = " + echo + ", exit = " + exit;
         }
         pingResult.error = pingError;
         return pingResult;
